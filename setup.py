@@ -6,7 +6,7 @@ setup(
     description="OpenAI-compatible API proxy for AWS Bedrock",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    python_requires=">=3.12",
+    python_requires=">=3.11",
     install_requires=[
         "fastapi",
         "uvicorn",
