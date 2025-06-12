@@ -91,7 +91,7 @@ class ChatRequest(BaseModel):
     frequency_penalty: float | None = Field(default=0.0, le=2.0, ge=-2.0)  # Not used
     presence_penalty: float | None = Field(default=0.0, le=2.0, ge=-2.0)  # Not used
     stream: bool | None = False
-    stream_options: StreamOptions | None = None
+    stream_options: StreamOptions | None = StreamOptions()
     temperature: float | None = Field(default=1.0, le=2.0, ge=0.0)
     top_p: float | None = Field(default=1.0, le=1.0, ge=0.0)
     user: str | None = None  # Not used
@@ -108,6 +108,7 @@ class Usage(BaseModel):
     prompt_tokens: int
     completion_tokens: int
     total_tokens: int
+    cost: float
 
 
 class ChatResponseMessage(BaseModel):

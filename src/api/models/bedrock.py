@@ -39,6 +39,7 @@ from api.schema import (
     UserMessage,
 )
 from api.setting import AWS_REGION, DEBUG, DEFAULT_MODEL, ENABLE_CROSS_REGION_INFERENCE
+from api.pricing import get_cost
 
 logger = logging.getLogger(__name__)
 
@@ -497,6 +498,7 @@ class BedrockModel(BaseChatModel):
                 prompt_tokens=input_tokens,
                 completion_tokens=output_tokens,
                 total_tokens=input_tokens + output_tokens,
+                cost=get_cost(model, input_tokens, output_tokens),
             ),
         )
         response.system_fingerprint = "fp"
@@ -574,15 +576,17 @@ class BedrockModel(BaseChatModel):
             metadata = chunk["metadata"]
             if "usage" in metadata:
                 # token usage
+                usage=Usage(
+                    prompt_tokens=metadata["usage"]["inputTokens"],
+                    completion_tokens=metadata["usage"]["outputTokens"],
+                    total_tokens=metadata["usage"]["totalTokens"],
+                    cost=get_cost(model_id, metadata["usage"]["inputTokens"], metadata["usage"]["outputTokens"]),
+                )
                 return ChatStreamResponse(
                     id=message_id,
                     model=model_id,
                     choices=[],
-                    usage=Usage(
-                        prompt_tokens=metadata["usage"]["inputTokens"],
-                        completion_tokens=metadata["usage"]["outputTokens"],
-                        total_tokens=metadata["usage"]["totalTokens"],
-                    ),
+                    usage=usage,
                 )
         if message:
             return ChatStreamResponse(
