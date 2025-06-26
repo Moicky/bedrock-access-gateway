@@ -1,5 +1,6 @@
 model_pricing_per_1m = {
-    "eu.anthropic.claude-3-7-sonnet-20250219-v1:0": dict(input=6.0, output=30.0)
+    "eu.anthropic.claude-3-7-sonnet-20250219-v1:0": dict(input=6.0, output=30.0),
+    "eu.anthropic.claude-sonnet-4-20250514-v1:0": dict(input=6.0, output=30.0),
 }
 
 
